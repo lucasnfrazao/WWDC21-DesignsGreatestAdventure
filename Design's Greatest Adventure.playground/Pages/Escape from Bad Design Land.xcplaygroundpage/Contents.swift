@@ -20,11 +20,10 @@
 
  ---
 
- When you're ready, go to the **next page** to see how an accessible interface will help her climb the **Best Practices Mountain**!
+ When you're ready, go to the [next page](@next) to see how an accessible interface will help her climb the **Best Practices Mountain**!
  
 */
 //#-hidden-code
-
 
 //: [Previous](@previous)
 
@@ -32,6 +31,20 @@ import Foundation
 
 var str = "Hello, playground"
 
+//#-end-hidden-code
+var sleepHours = /*#-editable-code*/<#T##color##PossibleCases>/*#-end-editable-code*/
+//#-hidden-code
+
 //: [Next](@next)
 
+
+enum PossibleCases {
+    
+    case grid, color, typography
+    
+}
+
 //#-end-hidden-code
+
+
+

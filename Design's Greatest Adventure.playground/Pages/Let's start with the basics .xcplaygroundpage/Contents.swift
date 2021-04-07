@@ -3,7 +3,7 @@
  
  Today, we're going to talk about **user interfaces**. Designing well-thought-out user interfaces, or UI for short, is a very important step on the making of great and accessible experiences for **everyone**!
  
- Although it's consider a very complex subject, there are some concepts that we can use in order to achieve better results when projecting our apps.
+ Although it's a very complex subject, there are some concepts that we can use in order to achieve better results when projecting our apps.
 
  According to Usability.gov, every project should follow some best practices for its interface development.
 
@@ -19,7 +19,7 @@
 
  Tap **Run My Code** to help her!
 
- When you're ready, go to the **next page** to continue grandma's adventure.
+ When you're ready, go to the [next page](@next) to continue grandma's adventure.
  
 */
 //#-hidden-code
@@ -27,44 +27,51 @@
 import PlaygroundSupport
 import SpriteKit
 
-class GameScene: SKScene {
+// Load the SKScene from 'GameScene.sks'
+public let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
+if let scene = GameScene(fileNamed: "GameScene") {
+    // Set the scale mode to scale to fit the window
+    scene.scaleMode = .aspectFill
+    // Present the scene
+    sceneView.presentScene(scene)
+}
+
+var sceneManager = SceneManager()
+
+public class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    private var label : SKLabelNode!
-    private var spinnyNode : SKShapeNode!
-    private let kAnimalNodeName = "movable"
+    //private var label : SKLabelNode!
+    //private var spinnyNode : SKShapeNode!
+    private let movableArrow = "movable"
     private var selectedNode = SKSpriteNode()
     
     var nextButton: SKSpriteNode!
+    var sign: SKSpriteNode!
+    var arrows: SKSpriteNode!
+    var title: SKLabelNode!
+    var subtitle: SKLabelNode!
+    var textManager = TextManager()
     
-    override func didMove(to view: SKView) {
+    public override func didMove(to view: SKView) {
         backgroundColor = SKColor(red: 0.93, green: 0.83, blue: 0.62, alpha: 1.0)
-       
-        // Get label node from scene and store it for use later
-        //label = childNode(withName: "//helloLabel") as? SKLabelNode
-//        label.alpha = 0.0
-//        let fadeInOut = SKAction.sequence([.fadeIn(withDuration: 2.0),
-//                                           .fadeOut(withDuration: 2.0)])
-//        label.run(.repeatForever(fadeInOut))
-//        
-//        // Create shape node to use during mouse interaction
-//        let w = (size.width + size.height) * 0.05
-//        
-//        spinnyNode = SKShapeNode(rectOf: CGSize(width: w, height: w), cornerRadius: w * 0.3)
-//        spinnyNode.lineWidth = 2.5
-//        
-//        let fadeAndRemove = SKAction.sequence([.wait(forDuration: 0.5),
-//                                               .fadeOut(withDuration: 0.5),
-//                                               .removeFromParent()])
-//        spinnyNode.run(.repeatForever(.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-//        spinnyNode.run(fadeAndRemove)
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
+        sign = childNode(withName: "//sign") as? SKSpriteNode
+        arrows = childNode(withName: "//movable") as? SKSpriteNode
+        
+        title = childNode(withName: "//title") as? SKLabelNode
+        subtitle = childNode(withName: "//subtitle") as? SKLabelNode
         
         nextButton.isHidden = true
         
+        //textManager.setTextFontSize(title: title, subtitle: subtitle)
+        
+        physicsWorld.gravity = .zero
+        physicsWorld.contactDelegate = self
+        
     }
     
-    @objc static override var supportsSecureCoding: Bool {
+    @objc static public override var supportsSecureCoding: Bool {
         // SKNode conforms to NSSecureCoding, so any subclass going
         // through the decoding process must support secure coding
         get {
@@ -84,7 +91,7 @@ class GameScene: SKScene {
         //guard let n = spinnyNode.copy() as? SKShapeNode else { return }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
 
@@ -94,42 +101,30 @@ class GameScene: SKScene {
         
         if nextButton.contains(touchLocation) {
             
-            if let scene = SecondScene(fileNamed: "SecondScene") {
-            
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                sceneView.presentScene(scene)
-                
-            }
+            sceneManager.transition(self, toScene: SecondScene(fileNamed: "SecondScene")!)
             
         }
         
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
             for t in touches {
 
                 let location = t.location(in: self)
-
-                //if !location.isOutside(box.frame) {
                 
                     selectedNode.position.x = location.x
                     selectedNode.position.y = location.y
-
-                //}
                     
             }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { touchUp(atPoint: t.location(in: self)) }
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { touchUp(atPoint: t.location(in: self)) }
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
     }
     
     
@@ -141,34 +136,32 @@ class GameScene: SKScene {
       // 1
         let touchedNode = self.atPoint(touchLocation)
       
-      if touchedNode is SKSpriteNode {
-        // 2
+      if touchedNode.name == movableArrow {
         if !selectedNode.isEqual(touchedNode) {
           selectedNode.removeAllActions()
-            selectedNode.run(SKAction.rotate(toAngle: 0.0, duration: 0.1))
-      
           selectedNode = touchedNode as! SKSpriteNode
-
-          // 3
-          if touchedNode.name! == kAnimalNodeName {
-            let sequence = SKAction.sequence([SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.1),
-                                              SKAction.rotate(byAngle: 0.0, duration: 0.1),
-                                              SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.1)])
+        let sequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),
+                SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.2)])
             selectedNode.run(SKAction.repeatForever(sequence))
-          }
+          
         }
       }
+      
+      else {
+        
+       print("Show where user needs to click.")
+        
+      }
+        
+        
     }
     
-    override func update(_ currentTime: TimeInterval) {
+    public override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        //autoLayout()
         
     }
     
     func autoLayout() {
-        
-        
         do {
             let originalSize = CGSize(width: 768, height: 1024)
                 
@@ -189,35 +182,112 @@ class GameScene: SKScene {
         }
         
     
-    
 }
 
-// Load the SKScene from 'GameScene.sks'
-let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
-if let scene = GameScene(fileNamed: "GameScene") {
-    // Set the scale mode to scale to fit the window
-    scene.scaleMode = .aspectFill
-    // Present the scene
-    sceneView.presentScene(scene)
-}
-
-extension CGPoint {
-   
-    func isOutside(_ other:CGRect)->Bool {
-        
-        return self.x < other.minX ||
-            self.x > other.maxX ||
-            self.y < other.minX ||
-            self.y > other.maxY
-    }
-}
-    
 class SecondScene: SKScene {
 
-
-
+    var wrongAnswer: SKSpriteNode!
+    var correctAnswer1: SKSpriteNode!
+    var correctAnswer2: SKSpriteNode!
+    var correctAnswer3: SKSpriteNode!
+    var nextButton: SKSpriteNode!
+    
+    var answers : [SKSpriteNode] = []
+    var selectedNodes : [SKSpriteNode] = []
+    var points : Int = 0
+    
+    override func didMove(to view: SKView) {
+        correctAnswer1 = childNode(withName: "//correct1") as? SKSpriteNode
+        correctAnswer2 = childNode(withName: "//correct2") as? SKSpriteNode
+        correctAnswer3 = childNode(withName: "//correct3") as? SKSpriteNode
+        nextButton = childNode(withName: "//next") as? SKSpriteNode
+        
+        answers = [correctAnswer1, correctAnswer2, correctAnswer3]
+        
+        nextButton.isHidden = true
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first!
+        let touchLocation = touch.location(in: self)
+        
+        let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
+        let scaleDownAction = SKAction.scale(to: 1.10, duration: 0.3)
+        
+        let selectedAction = SKAction.scale(to: 0.85, duration: 0.3)
+    
+        let sequence = SKAction.sequence([scaleUpAction, scaleDownAction])
+        
+        for i in 0..<answers.count {
+            
+            let answer = answers[i]
+            
+            if answer.contains(touchLocation) {
+                checkNodes(node: answer)
+                answer.run(selectedAction)
+            }
+            
+            if points >= 3 {
+                
+                self.loadNextScene(location: touchLocation)
+                
+                answer.run(SKAction.repeatForever(sequence))
+                
+                enumerateChildNodes(withName: "wrong") {
+                        node, stop in
+                        node.alpha = 0.4
+                }
+                
+            }
+            
+        }
+        
+        
+        
+        
+        
+    }
+    
+    func loadNextScene(location: CGPoint) {
+        
+        nextButton.isHidden = false
+        
+        if nextButton.contains(location) {
+            
+            sceneManager.transition(self, toScene: ThirdScene(fileNamed: "ThirdScene")!)
+            
+        }
+        
+        
+    }
+    
+    func checkNodes(node: SKSpriteNode) {
+        
+        if !selectedNodes.contains(node) {
+            
+            selectedNodes.append(node)
+            points += 1
+            
+        } else {
+            
+            print("NÃO ADICIONA")
+        }
+        
+    }
+    
 }
 
+//extension CGPoint {
+//
+//    func isOutside(_ other:CGRect)->Bool {
+//
+//        return self.x < other.minX ||
+//            self.x > other.maxX ||
+//            self.y < other.minX ||
+//            self.y > other.maxY
+//    }
+//}
 
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
