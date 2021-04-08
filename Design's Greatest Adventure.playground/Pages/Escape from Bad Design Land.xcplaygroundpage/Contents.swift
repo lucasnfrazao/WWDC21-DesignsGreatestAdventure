@@ -6,22 +6,19 @@
 
  According to a study by the **Nielsen Norman Group**, a bad designed interface can have serious impacts on how your project is received. Developing a solid experience for everyone can be big challenge and there are a lot of tasks we have to check off in order to reach the best possible results.
 
- There are **three aspects** that will make a huge difference in how our app is perceived:
+ But there are **two aspects** that will make a huge difference in how our app is perceived:
 
  - Typography
  - Colors
- - Grids
  
- As grandma entered the World of Design, she came across the **BadDesignLand**. Now, you're objective is to help her escape from it by choosing the correct attributes to the functions below.
+ As grandma entered the World of Design, she came across the **BadDesignLand**. Now, you're objective is to help her escape from it by choosing the correct attributes that make the app's desig better!
 
  Tap **Run My Code** when you're ready!
  
  
  * Callout(Tips):
 Typography: **.largeTitle, .headline** \
-Colors: **.lightBlue, .lightOrange** \
-Grids: **.edges, .center**
- 
+Colors: **.lightBlue, .lightOrange**
 
  ---
 
@@ -45,12 +42,6 @@ enum Colors {
     
 }
 
-enum Grids {
-    
-    case edges, center
-    
-}
-
 public let uiView = UIView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
 
 public class Escape: UIViewController {
@@ -58,30 +49,56 @@ public class Escape: UIViewController {
     var phoneScreen: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red: 0.80, green: 0.62, blue: 0.93, alpha: 1.00)
+        //view.layer.cornerRadius = 45
         return view
     }()
     
     var pageTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 3
+        label.numberOfLines = 1
         label.textAlignment = .center
         label.text = "Escape!"
         label.font = UIFont.boldSystemFont(ofSize: 50)
         label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     var pageSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.textAlignment = .center
         label.text = "Choose the correct options on the left to escape from BadDesignLand"
-        label.font = UIFont.systemFont(ofSize: 27, weight: .regular)
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
         return label
+    }()
+    
+    var appTitle: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var appSubtitle: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "about UI Design"
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = .white
+        return label
+    }()
+    
+    var firstSectionBG: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        uiView.backgroundColor = .systemPurple
+        uiView.layer.cornerRadius = 50
+        return uiView
     }()
     
     var iPhoneImage: UIImageView = {
@@ -103,10 +120,26 @@ public class Escape: UIViewController {
         view.addSubview(pageTitle)
         view.addSubview(pageSubtitle)
         view.addSubview(phoneScreen)
+        
+        phoneScreen.addSubview(firstSectionBG)
+        phoneScreen.addSubview(appTitle)
+        phoneScreen.addSubview(appSubtitle)
+        
         view.addSubview(iPhoneImage)
+        
         setupConstraints()
+        editableCodes()
+    }
+    
+    public func editableCodes() {
+        //#-end-hidden-code
+        
+        //: Typography.
+        typographyAttributes(firstSection: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, secondSection: /*#-editable-code*/.headline/*#-end-editable-code*/)
+        //#-hidden-code
         
     }
+    
     
     public func setupConstraints() {
         
@@ -115,35 +148,92 @@ public class Escape: UIViewController {
             pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             pageSubtitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             pageSubtitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            pageSubtitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageSubtitle.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 10),
+            pageSubtitle.topAnchor.constraint(equalTo: pageTitle.bottomAnchor),
             iPhoneImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            iPhoneImage.widthAnchor.constraint(equalToConstant: 418),
-            iPhoneImage.topAnchor.constraint(equalTo: pageSubtitle.bottomAnchor, constant: 30),
-            iPhoneImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
-            phoneScreen.leadingAnchor.constraint(equalTo: iPhoneImage.leadingAnchor),
-            phoneScreen.trailingAnchor.constraint(equalTo: iPhoneImage.trailingAnchor),
+            iPhoneImage.topAnchor.constraint(equalTo: pageSubtitle.bottomAnchor, constant: 20),
+            iPhoneImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             phoneScreen.centerXAnchor.constraint(equalTo: iPhoneImage.centerXAnchor),
+            phoneScreen.centerYAnchor.constraint(equalTo: iPhoneImage.centerYAnchor),
+            phoneScreen.heightAnchor.constraint(equalTo: phoneScreen.widthAnchor, multiplier: 19.5/9),
             phoneScreen.topAnchor.constraint(equalTo: iPhoneImage.topAnchor),
-            phoneScreen.bottomAnchor.constraint(equalTo: iPhoneImage.bottomAnchor, constant: -10),
-            
+            phoneScreen.bottomAnchor.constraint(equalTo: iPhoneImage.bottomAnchor),
         ])
+        
+        setupFirstSection()
+        
+        pageSubtitle.font = UIFont.systemFont(ofSize: pageTitle.font.pointSize/2, weight: .regular)
     
     }
     
     
-    func constantsTest(typography: Typography) {
+    public func setupFirstSection() {
         
-        print(typography.hashValue)
+        NSLayoutConstraint.activate([
+        
+            firstSectionBG.topAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.topAnchor),
+            firstSectionBG.centerXAnchor.constraint(equalTo: phoneScreen.centerXAnchor),
+            firstSectionBG.heightAnchor.constraint(equalTo: phoneScreen.heightAnchor, multiplier: 0.4),
+            firstSectionBG.widthAnchor.constraint(equalTo: phoneScreen.widthAnchor),
+            //firstSectionBG.leadingAnchor.constraint(equalTo: phoneScreen.leadingAnchor),
+            //firstSectionBG.trailingAnchor.constraint(equalTo: phoneScreen.trailingAnchor),
+            appTitle.bottomAnchor.constraint(equalTo: appSubtitle.topAnchor),
+            appTitle.leadingAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.leadingAnchor, constant: 20),
+            appTitle.trailingAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.trailingAnchor, constant: -20),
+            appSubtitle.topAnchor.constraint(equalTo: appTitle.bottomAnchor),
+            appSubtitle.leadingAnchor.constraint(equalTo: appTitle.leadingAnchor),
+            appSubtitle.trailingAnchor.constraint(equalTo: appTitle.trailingAnchor),
+            appSubtitle.bottomAnchor.constraint(equalTo: firstSectionBG.bottomAnchor, constant: -10),
+        ])
+        
         
     }
     
+    
+    func typographyAttributes(firstSection: Typography, secondSection: Typography) {
+        
+        switch firstSection {
+        
+        case .largeTitle:
+            return handleTypography(appTitle, isLargeTitle: true)
+        case .headline:
+            return handleTypography(appTitle, isLargeTitle: false)
+            
+        }
+        
+        //print(firstSection.hashValue)
+        
+    }
+    
+    
+    func handleTypography(_ label: UILabel, isLargeTitle: Bool) {
+        
+        if isLargeTitle {
+            
+            label.textAlignment = .left
+            label.text = "This is a story"
+            label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+            label.textColor = .white
+            label.adjustsFontSizeToFitWidth = true
+            
+        } else {
+            
+            label.textAlignment = .left
+            label.text = "This is a story"
+            label.font = UIFont.boldSystemFont(ofSize: 10)
+            label.textColor = .white
+            label.adjustsFontSizeToFitWidth = true
+            
+        }
+        
+        
+    }
     
     
     
 }
 
 extension UIImageView {
+    
     var contentClippingRect: CGRect {
         guard let image = image else { return bounds }
         guard contentMode == .scaleAspectFit else { return bounds }
@@ -172,7 +262,4 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 
 
-////#-end-hidden-code
-////: Typography.
-//constantsTest(typography: /*#-editable-code*/.largeTitle/*#-end-editable-code*/)
-////#-hidden-code
+
