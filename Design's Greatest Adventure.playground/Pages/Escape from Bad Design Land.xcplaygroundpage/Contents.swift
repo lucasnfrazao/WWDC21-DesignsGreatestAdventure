@@ -30,15 +30,22 @@ Colors: **.lightBlue, .lightOrange**
 import PlaygroundSupport
 import UIKit
 
-enum Typography {
+enum TypographyFirst {
     
     case largeTitle, headline
     
 }
 
+enum TypographySecond {
+    
+    
+    case title, body
+    
+}
+
 enum Colors {
     
-    case blue, orange
+    case purple, pink, blue
     
 }
 
@@ -49,8 +56,8 @@ public class Escape: UIViewController {
     var phoneScreen: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.80, green: 0.62, blue: 0.93, alpha: 1.00)
-        //view.layer.cornerRadius = 45
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 50
         return view
     }()
     
@@ -86,10 +93,20 @@ public class Escape: UIViewController {
     var appSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "about UI Design"
+        label.numberOfLines = 2
+        label.text = "about how we can use UI Design to make better experiences"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
+        return label
+    }()
+    
+    var sectionTitle: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "Title 2"
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -97,7 +114,8 @@ public class Escape: UIViewController {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
         uiView.backgroundColor = .systemPurple
-        uiView.layer.cornerRadius = 50
+        uiView.layer.cornerRadius = 30
+        uiView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         return uiView
     }()
     
@@ -106,7 +124,7 @@ public class Escape: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "iPhone")
+        imageView.image = UIImage(named: "iPhone_Clear")
         return imageView
     }()
     
@@ -115,17 +133,19 @@ public class Escape: UIViewController {
         
         view.frame = CGRect(x:0 , y:0, width: 768, height: 1024)
         
-        view.backgroundColor = UIColor(red: 0.80, green: 0.62, blue: 0.93, alpha: 1.00)
+        //view.backgroundColor = UIColor(red: 0.80, green: 0.62, blue: 0.93, alpha: 1.00)
         
-        view.addSubview(pageTitle)
-        view.addSubview(pageSubtitle)
         view.addSubview(phoneScreen)
-        
         phoneScreen.addSubview(firstSectionBG)
         phoneScreen.addSubview(appTitle)
         phoneScreen.addSubview(appSubtitle)
+        phoneScreen.addSubview(sectionTitle)
         
-        view.addSubview(iPhoneImage)
+        phoneScreen.addSubview(iPhoneImage)
+        
+        
+        //view.addSubview(pageTitle)
+        //view.addSubview(pageSubtitle)
         
         setupConstraints()
         editableCodes()
@@ -134,8 +154,14 @@ public class Escape: UIViewController {
     public func editableCodes() {
         //#-end-hidden-code
         
-        //: Typography.
-        typographyAttributes(firstSection: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, secondSection: /*#-editable-code*/.headline/*#-end-editable-code*/)
+        //: First Section
+        firstSectionAttributes(typography: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor: /*#-editable-code*/.pink/*#-end-editable-code*/)
+        
+        //: Second Section
+        
+        //colorAttributes(firstSection: /*#-editable-code*/.purple/*#-end-editable-code*/, secondSection: /*#-editable-code*/.pink/*#-end-editable-code*/)
+        
+        
         //#-hidden-code
         
     }
@@ -144,19 +170,20 @@ public class Escape: UIViewController {
     public func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            pageSubtitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            pageSubtitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            pageSubtitle.topAnchor.constraint(equalTo: pageTitle.bottomAnchor),
-            iPhoneImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            iPhoneImage.topAnchor.constraint(equalTo: pageSubtitle.bottomAnchor, constant: 20),
-            iPhoneImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            phoneScreen.centerXAnchor.constraint(equalTo: iPhoneImage.centerXAnchor),
-            phoneScreen.centerYAnchor.constraint(equalTo: iPhoneImage.centerYAnchor),
+//            pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+//            pageTitle.bottomAnchor.constraint(equalTo: pageSubtitle.topAnchor),
+//            pageSubtitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+//            pageSubtitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            phoneScreen.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            phoneScreen.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             phoneScreen.heightAnchor.constraint(equalTo: phoneScreen.widthAnchor, multiplier: 19.5/9),
-            phoneScreen.topAnchor.constraint(equalTo: iPhoneImage.topAnchor),
-            phoneScreen.bottomAnchor.constraint(equalTo: iPhoneImage.bottomAnchor),
+            //phoneScreen.topAnchor.constraint(equalTo: pageSubtitle.bottomAnchor, constant: 20),
+            phoneScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            iPhoneImage.centerXAnchor.constraint(equalTo: phoneScreen.centerXAnchor),
+            iPhoneImage.topAnchor.constraint(equalTo: phoneScreen.topAnchor),
+            iPhoneImage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
+            
         ])
         
         setupFirstSection()
@@ -165,63 +192,63 @@ public class Escape: UIViewController {
     
     }
     
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        //firstSectionBG.roundCorners(corners: [.topLeft, .topRight], radius: 50)
+        
+    }
+    
     
     public func setupFirstSection() {
         
         NSLayoutConstraint.activate([
-        
             firstSectionBG.topAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.topAnchor),
+            firstSectionBG.bottomAnchor.constraint(equalTo: appSubtitle.bottomAnchor, constant: 20),
             firstSectionBG.centerXAnchor.constraint(equalTo: phoneScreen.centerXAnchor),
-            firstSectionBG.heightAnchor.constraint(equalTo: phoneScreen.heightAnchor, multiplier: 0.4),
-            firstSectionBG.widthAnchor.constraint(equalTo: phoneScreen.widthAnchor),
-            //firstSectionBG.leadingAnchor.constraint(equalTo: phoneScreen.leadingAnchor),
-            //firstSectionBG.trailingAnchor.constraint(equalTo: phoneScreen.trailingAnchor),
+            //firstSectionBG.heightAnchor.constraint(equalTo: phoneScreen.heightAnchor, multiplier: 0.5),
+            firstSectionBG.leadingAnchor.constraint(equalTo: phoneScreen.leadingAnchor),
+            firstSectionBG.trailingAnchor.constraint(equalTo: phoneScreen.trailingAnchor),
+            appTitle.topAnchor.constraint(equalTo: firstSectionBG.topAnchor, constant: 150),
             appTitle.bottomAnchor.constraint(equalTo: appSubtitle.topAnchor),
             appTitle.leadingAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.leadingAnchor, constant: 20),
             appTitle.trailingAnchor.constraint(equalTo: phoneScreen.layoutMarginsGuide.trailingAnchor, constant: -20),
             appSubtitle.topAnchor.constraint(equalTo: appTitle.bottomAnchor),
             appSubtitle.leadingAnchor.constraint(equalTo: appTitle.leadingAnchor),
             appSubtitle.trailingAnchor.constraint(equalTo: appTitle.trailingAnchor),
-            appSubtitle.bottomAnchor.constraint(equalTo: firstSectionBG.bottomAnchor, constant: -10),
+            sectionTitle.topAnchor.constraint(equalTo: firstSectionBG.bottomAnchor, constant: 20),
+            sectionTitle.leadingAnchor.constraint(equalTo: appTitle.leadingAnchor),
+            sectionTitle.trailingAnchor.constraint(equalTo: appTitle.trailingAnchor),
+            
         ])
         
         
     }
     
     
-    func typographyAttributes(firstSection: Typography, secondSection: Typography) {
+    func firstSectionAttributes(typography: TypographyFirst, backgroundColor: Colors) {
         
-        switch firstSection {
-        
-        case .largeTitle:
-            return handleTypography(appTitle, isLargeTitle: true)
-        case .headline:
-            return handleTypography(appTitle, isLargeTitle: false)
+        if typography == .largeTitle {
             
-        }
-        
-        //print(firstSection.hashValue)
-        
-    }
-    
-    
-    func handleTypography(_ label: UILabel, isLargeTitle: Bool) {
-        
-        if isLargeTitle {
-            
-            label.textAlignment = .left
-            label.text = "This is a story"
-            label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-            label.textColor = .white
-            label.adjustsFontSizeToFitWidth = true
+            handleFirstSection(appTitle, isLargeTitle: true)
             
         } else {
             
-            label.textAlignment = .left
-            label.text = "This is a story"
-            label.font = UIFont.boldSystemFont(ofSize: 10)
-            label.textColor = .white
-            label.adjustsFontSizeToFitWidth = true
+            handleFirstSection(appTitle, isLargeTitle: false)
+            
+        }
+        
+        if backgroundColor == .blue {
+            
+            handleColors(firstSectionBG, color: .systemBlue)
+             
+        } else if backgroundColor == .pink {
+            
+            handleColors(firstSectionBG, color: .systemPink)
+            
+        } else {
+            
+            handleColors(firstSectionBG, color: .systemPurple)
             
         }
         
@@ -229,7 +256,64 @@ public class Escape: UIViewController {
     }
     
     
+    func handleFirstSection(_ label: UILabel, isLargeTitle: Bool) {
+        
+        label.textAlignment = .left
+        label.text = "This is a story"
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        
+        if isLargeTitle {
+            
+            label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+            
+        } else {
+            label.font = UIFont.boldSystemFont(ofSize: 10)
+            
+        }
+    }
     
+    
+    func handleSecondSection(_ label: UILabel, isTitle: Bool) {
+        
+        label.textAlignment = .left
+        label.text = "This is a title"
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        
+        if isTitle {
+            
+            label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+            
+        } else {
+            label.font = UIFont.boldSystemFont(ofSize: 7)
+            
+        }
+    }
+    
+    
+    
+    
+    
+    func handleColors(_ view: UIView, color: UIColor) {
+        
+        view.backgroundColor = color
+        self.view.backgroundColor = color
+        
+        
+    }
+    
+    
+    
+}
+
+extension UIView {
+   func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
 }
 
 extension UIImageView {

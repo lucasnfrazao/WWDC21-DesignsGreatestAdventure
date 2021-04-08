@@ -6,9 +6,12 @@ public class ThirdScene: SKScene {
     var path1: SKSpriteNode!
     var path2: SKSpriteNode!
     var path3: SKSpriteNode!
+    
     var road1: SKSpriteNode!
     var road2: SKSpriteNode!
     var road3: SKSpriteNode!
+    
+    //var textManager = TextManager()
     
     var endMessage: SKSpriteNode!
     

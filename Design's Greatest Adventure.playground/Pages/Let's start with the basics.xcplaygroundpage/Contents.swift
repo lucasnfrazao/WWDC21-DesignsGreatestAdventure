@@ -50,16 +50,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     var title: SKLabelNode!
     var subtitle: SKLabelNode!
     
-    
-    
     var emptyNode: SKSpriteNode!
-    
     
     var textManager = TextManager()
     
     public override func didMove(to view: SKView) {
-        
-        //backgroundColor = SKColor(red: 0.93, green: 0.83, blue: 0.62, alpha: 1.0)
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         sign = childNode(withName: "//sign") as? SKSpriteNode
@@ -67,15 +62,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         
         title = childNode(withName: "//title") as? SKLabelNode
         subtitle = childNode(withName: "//subtitle") as? SKLabelNode
-        
-        
-        
+ 
         nextButton.isHidden = true
-        
-        //textManager.setTextFontSize(title: title, subtitle: subtitle)
-        
-        physicsWorld.gravity = .zero
-        physicsWorld.contactDelegate = self
         
     }
     
@@ -114,7 +102,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        nextButton.isHidden = false
+        
         
         if nextButton.contains(touchLocation) {
             
@@ -143,6 +131,16 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if arrows.intersects(sign) {
+            
+            print("SIM")
+            
+        } else {
+            
+            nextButton.isHidden = false
+            
+        }
         
         
     }
