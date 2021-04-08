@@ -25,9 +25,49 @@ Tap **Run My Code** when you're ready!
  
 //: [Previous](@previous)
 
-import Foundation
+import SpriteKit
+import PlaygroundSupport
 
-var str = "Hello, playground"
+public class Journey: SKScene {
+    
+  
+    public override func didMove(to view: SKView) {
+        
+   
+        
+    }
+    
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //let touch = touches.first!
+        //let touchLocation = touch.location(in: self)
+        
+        
+        
+    }
+    
+    
+    func animation(endMessage: SKSpriteNode) {
+        
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 650, duration: 0.3)
+        endMessage.run(moveToCenter)
+        
+    }
+    
+    
+    
+}
+
+
+
+public let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
+if let scene = Journey(fileNamed: "Journey") {
+    // Set the scale mode to scale to fit the window
+    scene.scaleMode = .aspectFill
+    // Present the scene
+    sceneView.presentScene(scene)
+}
+
+PlaygroundPage.current.liveView = sceneView
 
 //: [Next](@next)
 

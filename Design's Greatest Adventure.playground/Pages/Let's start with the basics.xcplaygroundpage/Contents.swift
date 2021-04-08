@@ -13,9 +13,9 @@
  - Consistency
  - Purpose
 
- To start our journey into the world of UI design, you will need to help Lucas with his new side project: his grandma just got a new iPhone and she's super excited to explore everything she can possibly do with it.
+ To start our journey into the world of UI design, you will need to help Lucas with his new side project: help his grandmother learn more about designing interfaces and how useful it can be when using apps!
 
- Your goal here will be to complete three challenges to help Lucas' grandma enter the **Great World of Design**!
+ Your goal here will be to complete **three** challenges to help Lucas' grandma during her journey to the **Great World of Design**!
 
  Tap **Run My Code** to help her!
 
@@ -39,21 +39,27 @@ if let scene = GameScene(fileNamed: "GameScene") {
 var sceneManager = SceneManager()
 
 public class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-    //private var label : SKLabelNode!
-    //private var spinnyNode : SKShapeNode!
+
     private let movableArrow = "movable"
     private var selectedNode = SKSpriteNode()
     
     var nextButton: SKSpriteNode!
     var sign: SKSpriteNode!
     var arrows: SKSpriteNode!
+    
     var title: SKLabelNode!
     var subtitle: SKLabelNode!
+    
+    
+    
+    var emptyNode: SKSpriteNode!
+    
+    
     var textManager = TextManager()
     
     public override func didMove(to view: SKView) {
-        backgroundColor = SKColor(red: 0.93, green: 0.83, blue: 0.62, alpha: 1.0)
+        
+        //backgroundColor = SKColor(red: 0.93, green: 0.83, blue: 0.62, alpha: 1.0)
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         sign = childNode(withName: "//sign") as? SKSpriteNode
@@ -61,6 +67,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         
         title = childNode(withName: "//title") as? SKLabelNode
         subtitle = childNode(withName: "//subtitle") as? SKLabelNode
+        
+        
         
         nextButton.isHidden = true
         
@@ -92,10 +100,19 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
 
-        selectNodeForTouch(touchLocation: touchLocation)
+        //selectNodeForTouch(touchLocation: touchLocation)
+        
+        let touchedNode = self.atPoint(touchLocation)
+        
+        if touchedNode.name == movableArrow {
+        
+            selectedNode = touchedNode as! SKSpriteNode
+            
+        }
         
         nextButton.isHidden = false
         
@@ -112,14 +129,21 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             for t in touches {
 
                 let location = t.location(in: self)
+
+                if selectedNode.name == movableArrow {
                 
                     selectedNode.position.x = location.x
                     selectedNode.position.y = location.y
-                    
+                
+                }
+
             }
+        
+        
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         
     }
     
@@ -134,22 +158,20 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func selectNodeForTouch(touchLocation: CGPoint) {
       // 1
-        let touchedNode = self.atPoint(touchLocation)
+    let sequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.2)])
+        
+    let touchedNode = self.atPoint(touchLocation)
       
       if touchedNode.name == movableArrow {
         if !selectedNode.isEqual(touchedNode) {
           selectedNode.removeAllActions()
           selectedNode = touchedNode as! SKSpriteNode
-        let sequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),
-                SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.2)])
-            selectedNode.run(SKAction.repeatForever(sequence))
+          //selectedNode.run(SKAction.repeatForever(sequence))
           
         }
       }
       
       else {
-        
-       print("Show where user needs to click.")
         
       }
         
@@ -158,7 +180,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     public override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        
+   
     }
     
     func autoLayout() {
@@ -187,19 +209,27 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
 class SecondScene: SKScene {
 
     var wrongAnswer: SKSpriteNode!
+    
     var correctAnswer1: SKSpriteNode!
     var correctAnswer2: SKSpriteNode!
     var correctAnswer3: SKSpriteNode!
+    
     var nextButton: SKSpriteNode!
     
     var answers : [SKSpriteNode] = []
     var selectedNodes : [SKSpriteNode] = []
     var points : Int = 0
     
+    var endMessage: SKSpriteNode!
+    
     override func didMove(to view: SKView) {
+        
         correctAnswer1 = childNode(withName: "//correct1") as? SKSpriteNode
         correctAnswer2 = childNode(withName: "//correct2") as? SKSpriteNode
         correctAnswer3 = childNode(withName: "//correct3") as? SKSpriteNode
+        
+        endMessage = childNode(withName: "//endMessage") as? SKSpriteNode
+        
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         
         answers = [correctAnswer1, correctAnswer2, correctAnswer3]
@@ -239,13 +269,11 @@ class SecondScene: SKScene {
                         node.alpha = 0.4
                 }
                 
+                animation(endMessage: endMessage)
+                
             }
             
         }
-        
-        
-        
-        
         
     }
     
@@ -273,6 +301,14 @@ class SecondScene: SKScene {
             
             print("NÃO ADICIONA")
         }
+        
+    }
+    
+    
+    func animation(endMessage: SKSpriteNode) {
+        
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 320, duration: 0.3)
+        endMessage.run(moveToCenter)
         
     }
     
