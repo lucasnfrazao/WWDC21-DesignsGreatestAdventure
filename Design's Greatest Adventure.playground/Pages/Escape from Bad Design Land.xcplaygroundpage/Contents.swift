@@ -1,6 +1,6 @@
 /*:
  
-### Escape from Bad Design Land
+ ![Bad Design Land](BadDesignLand.png)
  
  We've covered the basics of interface design and helped Lucas' grandma to enter the **Great World of Design**. Now, let's take another step to talk about other important aspects of UI Design.
 
@@ -235,7 +235,8 @@ public class Escape: UIViewController {
             iPhoneImage.topAnchor.constraint(equalTo: phoneScreen.topAnchor),
             iPhoneImage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
             memoji.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            memoji.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -40)
+            memoji.trailingAnchor.constraint(equalTo: phoneScreen.leadingAnchor, constant: 20),
+            memoji.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor)
             
         ])
         

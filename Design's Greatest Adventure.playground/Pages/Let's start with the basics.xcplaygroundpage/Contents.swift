@@ -1,5 +1,5 @@
 /*:
- ![StartBanner](StartBasics.png)
+ ![StartBanner](StartBasicsv2.png)
  
  Today, we're going to talk about **user interfaces**. Designing well-thought-out user interfaces, or UI for short, is a very important step on the making of great and accessible experiences for **everyone**!
  
@@ -38,8 +38,8 @@ if let scene = GameScene(fileNamed: "GameScene") {
 
 var sceneManager = SceneManager()
 
-public class GameScene: SKScene, SKPhysicsContactDelegate {
-
+public class GameScene: SKScene {
+    
     private let movableArrow = "movable"
     private var selectedNode = SKSpriteNode()
     
@@ -52,9 +52,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var emptyNode: SKSpriteNode!
     
-    //var textManager = TextManager()
-    
     public override func didMove(to view: SKView) {
+        
+        let rectangle = SKShapeNode(rect: self.frame)
+        rectangle.strokeColor = .clear
+        rectangle.lineWidth = 10
+        addChild(rectangle)
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         sign = childNode(withName: "//sign") as? SKSpriteNode
@@ -62,7 +65,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         
         title = childNode(withName: "//title") as? SKLabelNode
         subtitle = childNode(withName: "//subtitle") as? SKLabelNode
- 
+    
         nextButton.isHidden = true
         
     }
@@ -110,6 +113,14 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+    }
+    
+    public override func sceneDidLoad()
+    {
+        super.sceneDidLoad()
+
+        self.size.width = self.size.height * (UIScreen.main.bounds.size.width / UIScreen.main.bounds.size.height)
+        self.scaleMode = .aspectFit
     }
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -299,7 +310,7 @@ class SecondScene: SKScene {
             
         } else {
             
-            print("NÃO ADICIONA")
+            //print("NÃO ADICIONA")
         }
         
     }
@@ -313,17 +324,6 @@ class SecondScene: SKScene {
     }
     
 }
-
-//extension CGPoint {
-//
-//    func isOutside(_ other:CGRect)->Bool {
-//
-//        return self.x < other.minX ||
-//            self.x > other.maxX ||
-//            self.y < other.minX ||
-//            self.y > other.maxY
-//    }
-//}
 
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
