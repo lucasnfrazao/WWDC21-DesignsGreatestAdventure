@@ -38,7 +38,7 @@ if let scene = GameScene(fileNamed: "GameScene") {
 
 var sceneManager = SceneManager()
 
-public class GameScene: SKScene {
+public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private let movableArrow = "movable"
     private var selectedNode = SKSpriteNode()
@@ -53,11 +53,6 @@ public class GameScene: SKScene {
     var emptyNode: SKSpriteNode!
     
     public override func didMove(to view: SKView) {
-        
-        let rectangle = SKShapeNode(rect: self.frame)
-        rectangle.strokeColor = .clear
-        rectangle.lineWidth = 10
-        addChild(rectangle)
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         sign = childNode(withName: "//sign") as? SKSpriteNode
