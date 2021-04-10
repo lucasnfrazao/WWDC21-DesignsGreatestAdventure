@@ -30,21 +30,33 @@ import PlaygroundSupport
 
 public class Journey: SKScene {
     
+    var bridgeLabel: SKLabelNode!
+    var dynamic: SKSpriteNode!
+    
   
     public override func didMove(to view: SKView) {
         
-   
+        bridgeLabel = childNode(withName: "//bridge") as? SKLabelNode
+        
+        dynamic = childNode(withName: "//dynamic") as? SKSpriteNode
         
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //let touch = touches.first!
-        //let touchLocation = touch.location(in: self)
+        let touch = touches.first!
+        let touchLocation = touch.location(in: self)
         
-        
-        
+        if dynamic.contains(touchLocation) {
+            
+            if bridgeLabel.fontSize <= 50 {
+            
+            bridgeLabel.fontSize += 10
+            
+            }
+            
+        }
+  
     }
-    
     
     func animation(endMessage: SKSpriteNode) {
         
@@ -54,10 +66,21 @@ public class Journey: SKScene {
     }
     
     
+    func animateMemojiToNextPosition() {
+        
+        
+        
+        
+        
+    }
+    
+    func endGame() {
+        
+        
+    }
+    
     
 }
-
-
 
 public let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
 if let scene = Journey(fileNamed: "Journey") {

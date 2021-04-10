@@ -11,7 +11,7 @@ public class ThirdScene: SKScene {
     var road2: SKSpriteNode!
     var road3: SKSpriteNode!
     
-    //var textManager = TextManager()
+    var door: SKSpriteNode!
     
     var endMessage: SKSpriteNode!
     
@@ -24,6 +24,8 @@ public class ThirdScene: SKScene {
         road1 = childNode(withName: "//road1") as? SKSpriteNode
         road2 = childNode(withName: "//road2") as? SKSpriteNode
         road3 = childNode(withName: "//road3") as? SKSpriteNode
+        
+        door = childNode(withName: "//door") as? SKSpriteNode
         
         endMessage = childNode(withName: "//endMessage") as? SKSpriteNode
         
@@ -39,6 +41,8 @@ public class ThirdScene: SKScene {
             path2.alpha = 0.4
             road1.alpha = 0.4
             road2.alpha = 0.4
+            
+            door.texture = SKTexture(image: UIImage(named:"Door-Open")!)
             
             //animation(endMessage: endMessage)
             

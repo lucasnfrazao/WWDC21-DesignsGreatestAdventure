@@ -52,7 +52,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var emptyNode: SKSpriteNode!
     
-    var textManager = TextManager()
+    //var textManager = TextManager()
     
     public override func didMove(to view: SKView) {
         
@@ -137,6 +137,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             print("SIM")
             
         } else {
+            
+            print("nao")
             
             nextButton.isHidden = false
             
