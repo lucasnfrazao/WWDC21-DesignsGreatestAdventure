@@ -45,7 +45,7 @@ enum TypographySecond {
 
 enum Colors {
     
-    case purple, pink, blue
+    case purple, pink, blue, yellow
     
 }
 
@@ -108,7 +108,7 @@ public class Escape: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.text = "Titles should be bigger..."
+        label.text = "Font size and weight are important"
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -119,7 +119,7 @@ public class Escape: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 11)
-        label.text = "Than the body of your text. This is how your users will be able to differentiate which informations need their most attention."
+        label.text = "They should communiate the most immediate and crucial information to the user. This is how your users will be able to differentiate which part of the text needs their most attention first!."
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -130,7 +130,7 @@ public class Escape: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.text = "Titles should be bigger..."
+        label.text = "Context is key"
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -141,8 +141,42 @@ public class Escape: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 11)
-        label.text = "Than the body of your text. This is how your users will be able to differentiate which informations need their most attention."
+        label.text = "Every family of fonts and their alternative versions have their own usage in different scenarios. Your app's typography should talk the same language that it aims to share with its users."
         label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    var sectionTitle3: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.text = "Consistency, consistency, consistency"
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    var sectionBody3: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.text = "Similar font sizes and weights should be used to indicate similar purporses or actions."
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    var finalMessage: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.text = "You've fixed all the issues with the app's design! Now you can go to the next page to help grandma get to the top of Great World of Design."
+        //label.textColor = .systemBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -192,6 +226,11 @@ public class Escape: UIViewController {
         phoneScreen.addSubview(sectionTitle2)
         phoneScreen.addSubview(sectionBody2)
         
+        phoneScreen.addSubview(sectionTitle3)
+        phoneScreen.addSubview(sectionBody3)
+        
+        phoneScreen.addSubview(finalMessage)
+        
         //view.addSubview(pageTitle)
         //view.addSubview(pageSubtitle)
         view.addSubview(memoji)
@@ -199,10 +238,16 @@ public class Escape: UIViewController {
         setupConstraints()
         editableCodes()
         
-        if points >= 2 {
+        if points >= 3 {
             
             memoji.image = UIImage(named: "Memoji_Smile")
     
+        } else {
+            
+            finalMessage.text = "There are some tweaks needed to fix the app's interface. Try changing some of them on the left!"
+            
+            finalMessage.textColor = .gray
+            
         }
         
     }
@@ -211,7 +256,7 @@ public class Escape: UIViewController {
         //#-end-hidden-code
         
         //: Top Section
-        firstSectionAttributes(typography: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor: /*#-editable-code*/.blue/*#-end-editable-code*/)
+        firstSectionAttributes(typography: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor: /*#-editable-code*/.purple/*#-end-editable-code*/)
         
         //: Bottom Section
         secondSectionAttributes(typography: /*#-editable-code*/.title/*#-end-editable-code*/)
@@ -227,7 +272,6 @@ public class Escape: UIViewController {
         NSLayoutConstraint.activate([
             phoneScreen.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             phoneScreen.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //phoneScreen.heightAnchor.constraint(equalTo: iPhoneImage.heightAnchor, multiplier: 0.9),
             phoneScreen.widthAnchor.constraint(equalTo: phoneScreen.heightAnchor, multiplier: 9/19.5),
             phoneScreen.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             phoneScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
@@ -287,6 +331,22 @@ public class Escape: UIViewController {
             sectionBody2.topAnchor.constraint(equalTo: sectionTitle2.bottomAnchor, constant: 5),
             sectionBody2.leadingAnchor.constraint(equalTo: sectionTitle2.leadingAnchor),
             sectionBody2.trailingAnchor.constraint(equalTo: sectionTitle2.trailingAnchor),
+            
+            sectionTitle3.topAnchor.constraint(equalTo: sectionBody2.bottomAnchor, constant: 15),
+            sectionTitle3.leadingAnchor.constraint(equalTo: sectionTitle2.leadingAnchor),
+            sectionTitle3.trailingAnchor.constraint(equalTo: sectionTitle2.trailingAnchor),
+            
+            
+            sectionBody3.topAnchor.constraint(equalTo: sectionTitle3.bottomAnchor, constant: 5),
+            sectionBody3.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
+            sectionBody3.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
+            
+            
+            finalMessage.topAnchor.constraint(greaterThanOrEqualTo: sectionBody3.bottomAnchor, constant: 20),
+            finalMessage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor, constant: -60),
+            finalMessage.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
+            finalMessage.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
+            
         ])
         
     }
@@ -310,14 +370,22 @@ public class Escape: UIViewController {
         if backgroundColor == .blue {
             
             handleColors(firstSectionBG, color: .systemBlue)
-             
+            points += 1
+            
         } else if backgroundColor == .pink {
             
             handleColors(firstSectionBG, color: .systemPink)
+            points += 1
+            
+        } else if backgroundColor == .purple {
+            
+            handleColors(firstSectionBG, color: .systemPurple)
+            points += 1
+            
             
         } else {
             
-            handleColors(firstSectionBG, color: .systemPurple)
+            handleColors(firstSectionBG, color: .systemYellow)
             
             
         }
@@ -365,14 +433,14 @@ public class Escape: UIViewController {
     func handleSecondSection(_ label: UILabel, isTitle: Bool) {
         
         label.textAlignment = .left
-        label.text = "This is a title"
+        //label.text = "Titles should be bigger..."
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         
         if isTitle {
             
             label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            label.text = "Size and Weight are important"
+            //label.text = "Size and Weight are important"
             
         } else {
             
@@ -386,6 +454,7 @@ public class Escape: UIViewController {
         
         view.backgroundColor = color
         self.view.backgroundColor = color
+        finalMessage.textColor = color
         
     }
     

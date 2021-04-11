@@ -32,13 +32,26 @@ public class Journey: SKScene {
     
     var bridgeLabel: SKLabelNode!
     var dynamic: SKSpriteNode!
+    var player: SKSpriteNode!
+    var background: SKSpriteNode!
     
-  
+    var loadSectionOne: Bool = false
+    
+    var loadSectionTwo: Bool = false
+    
+    var tapsDynamic: Int = 0
+    
     public override func didMove(to view: SKView) {
         
         bridgeLabel = childNode(withName: "//bridge") as? SKLabelNode
         
         dynamic = childNode(withName: "//dynamic") as? SKSpriteNode
+        
+        player = childNode(withName: "//player") as? SKSpriteNode
+        
+        background = childNode(withName: "//background") as? SKSpriteNode
+        
+        player.zPosition = 2
         
     }
     
@@ -46,15 +59,52 @@ public class Journey: SKScene {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
         
+        let rotationSequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.2),SKAction.rotate(byAngle: 0.0, duration: 0.1)])
+        
+        let scaleDown = SKAction.scale(to: 1.2, duration: 0.2)
+        scaleDown.timingMode = .easeIn
+        
+        let wait = SKAction.wait(forDuration: 0.1)
+        
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+        scaleUp.timingMode = .easeOut
+    
+        let touchSequence = SKAction.sequence([scaleDown, wait, scaleUp])
+        
+        if tapsDynamic != 3 {
+        
         if dynamic.contains(touchLocation) {
             
             if bridgeLabel.fontSize <= 50 {
             
             bridgeLabel.fontSize += 10
-            
-            }
+                
+            tapsDynamic += 1
+                
+            dynamic.run(touchSequence)
             
         }
+            
+            if tapsDynamic == 3 {
+                    
+            loadSectionOne = true
+                    
+                    
+            }
+            
+        } else {
+            
+        
+            dynamic.run(rotationSequence)
+    
+        }
+            
+        
+        }
+        
+        
+        
+        
   
     }
     
@@ -65,14 +115,84 @@ public class Journey: SKScene {
         
     }
     
+    func degToRad(degree: Double) -> CGFloat {
+        return CGFloat(Double(degree) / 180.0 * Double.pi)
+    }
     
-    func animateMemojiToNextPosition() {
+    func passFirstLevel(_ node: SKSpriteNode) {
         
+        let wait = SKAction.wait(forDuration: 3.5)
+        
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: bridgeLabel.position.x + 300, y: 40))
+        
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 200)
+        move.timingMode = .easeInEaseOut
+    
+        node.run(move)
+        
+        let changeTexture = SKAction.setTexture(SKTexture(imageNamed: "Second Mountatin"))
+        
+        let checkPosition = SKAction.run {
+            
+            self.loadSectionTwo = true
+        }
+            
+        let sequence = SKAction.sequence([wait, changeTexture,  checkPosition])
+        
+        background.run(sequence)
+        
+        let opacity = SKAction.fadeAlpha(to: 0, duration: 0.5)
+        
+        bridgeLabel.run(SKAction.sequence([wait, opacity]))
+  
+    }
+    
+    
+    func setupSecondLevel(_ node: SKSpriteNode) {
+        
+        let position = SKAction.move(to: CGPoint(x: -230, y: -345), duration: 0.5)
+        position.timingMode = .easeInEaseOut
+        
+        let scaleDown = SKAction.scale(to: 0.3, duration: 0.2)
+        scaleDown.timingMode = .easeInEaseOut
+        
+        let fadeOut = SKAction.fadeOut(withDuration: 0.2)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.2)
+        
+        
+        let animationSequence = SKAction.sequence([fadeOut, position, scaleDown, fadeIn])
+        
+        node.run(animationSequence)
         
         
         
         
     }
+    
+    
+    public override func update(_ currentTime: TimeInterval) {
+        
+        if loadSectionOne {
+            
+            passFirstLevel(player)
+            loadSectionOne = false
+            dynamic.alpha = 0.4
+     
+        }
+        
+        
+        if loadSectionTwo {
+            
+            setupSecondLevel(player)
+            loadSectionTwo = false
+            print(player.position)
+            
+        }
+        
+    }
+    
     
     func endGame() {
         
