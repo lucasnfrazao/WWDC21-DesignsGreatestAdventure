@@ -31,8 +31,15 @@ import PlaygroundSupport
 public class Journey: SKScene {
     
     var bridgeLabel: SKLabelNode!
+    
     var dynamic: SKSpriteNode!
+    
+    var magnifier: SKSpriteNode!
+    
+    var castle: SKSpriteNode!
+    
     var player: SKSpriteNode!
+    
     var background: SKSpriteNode!
     
     var loadSectionOne: Bool = false
@@ -41,15 +48,23 @@ public class Journey: SKScene {
     
     var tapsDynamic: Int = 0
     
+    var tapsMagnifier: Int = 0
+    
     public override func didMove(to view: SKView) {
         
         bridgeLabel = childNode(withName: "//bridge") as? SKLabelNode
         
         dynamic = childNode(withName: "//dynamic") as? SKSpriteNode
         
+        magnifier = childNode(withName: "//magnifier") as? SKSpriteNode
+        
         player = childNode(withName: "//player") as? SKSpriteNode
         
+        castle = childNode(withName: "//castle") as? SKSpriteNode
+        
         background = childNode(withName: "//background") as? SKSpriteNode
+        
+        castle.alpha = 0
         
         player.zPosition = 2
         
@@ -88,23 +103,41 @@ public class Journey: SKScene {
             if tapsDynamic == 3 {
                     
             loadSectionOne = true
-                    
-                    
+                
             }
+            
             
         } else {
             
-        
             dynamic.run(rotationSequence)
     
         }
             
+            
         
         }
         
+        if tapsDynamic == 3 {
+        
+        if tapsMagnifier != 3 {
+            
+            if magnifier.contains(touchLocation) {
+            
+                magnifierAction([player, castle])
+                tapsMagnifier += 1
+                
+                
+            } else {
+                
+                magnifier.run(rotationSequence)
+                
+            }
+            
+                
+        }
         
         
-        
+        }
   
     }
     
@@ -158,16 +191,27 @@ public class Journey: SKScene {
         let scaleDown = SKAction.scale(to: 0.3, duration: 0.2)
         scaleDown.timingMode = .easeInEaseOut
         
-        let fadeOut = SKAction.fadeOut(withDuration: 0.2)
-        let fadeIn = SKAction.fadeIn(withDuration: 0.2)
-        
+        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
         
         let animationSequence = SKAction.sequence([fadeOut, position, scaleDown, fadeIn])
         
         node.run(animationSequence)
         
+        castle.run(fadeIn)
         
+    }
+    
+    func magnifierAction(_ nodes: [SKSpriteNode]) {
         
+        let scaleUp = SKAction.scale(by: 1.2, duration: 0.5)
+        scaleUp.timingMode = .easeInEaseOut
+        
+        for node in nodes {
+            
+            node.run(scaleUp)
+            
+        }
         
     }
     
@@ -181,14 +225,12 @@ public class Journey: SKScene {
             dynamic.alpha = 0.4
      
         }
-        
-        
+    
         if loadSectionTwo {
             
             setupSecondLevel(player)
             loadSectionTwo = false
-            print(player.position)
-            
+
         }
         
     }

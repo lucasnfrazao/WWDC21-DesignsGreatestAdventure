@@ -140,11 +140,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if arrows.intersects(sign) {
             
-            print("SIM")
+            //print("SIM")
             
         } else {
             
-            print("nao")
+            //print("nao")
             
             nextButton.isHidden = false
             
