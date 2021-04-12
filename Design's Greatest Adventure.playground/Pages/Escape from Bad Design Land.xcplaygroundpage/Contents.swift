@@ -229,7 +229,7 @@ public class Escape: UIViewController {
         phoneScreen.addSubview(sectionTitle3)
         phoneScreen.addSubview(sectionBody3)
         
-        phoneScreen.addSubview(finalMessage)
+        //phoneScreen.addSubview(finalMessage)
         
         //view.addSubview(pageTitle)
         //view.addSubview(pageSubtitle)
@@ -244,9 +244,9 @@ public class Escape: UIViewController {
     
         } else {
             
-            finalMessage.text = "There are some tweaks needed to fix the app's interface. Try changing some of them on the left!"
+            //finalMessage.text = "There are some tweaks needed to fix the app's interface. Try changing some of them on the left!"
             
-            finalMessage.textColor = .gray
+            //finalMessage.textColor = .gray
             
         }
         
@@ -342,10 +342,9 @@ public class Escape: UIViewController {
             sectionBody3.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
             
             
-            finalMessage.topAnchor.constraint(greaterThanOrEqualTo: sectionBody3.bottomAnchor, constant: 20),
-            finalMessage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor, constant: -60),
-            finalMessage.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
-            finalMessage.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
+//            finalMessage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor, constant: -60),
+//            finalMessage.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
+//            finalMessage.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
             
         ])
         

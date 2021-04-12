@@ -46,6 +46,8 @@ public class Journey: SKScene {
     
     var loadSectionTwo: Bool = false
     
+    var finishGameTwo: Bool = false
+    
     var tapsDynamic: Int = 0
     
     var tapsMagnifier: Int = 0
@@ -66,7 +68,7 @@ public class Journey: SKScene {
         
         castle.alpha = 0
         
-        player.zPosition = 2
+        player.zPosition = 5
         
     }
     
@@ -125,19 +127,24 @@ public class Journey: SKScene {
             
                 magnifierAction([player, castle])
                 tapsMagnifier += 1
-                
+                magnifier.run(touchSequence)
                 
             } else {
                 
                 magnifier.run(rotationSequence)
                 
             }
+    
+        }
             
-                
         }
         
-        
+        if tapsMagnifier == 3 {
+            
+            finishGameTwo = true
+            
         }
+        
   
     }
     
@@ -156,6 +163,9 @@ public class Journey: SKScene {
         
         let wait = SKAction.wait(forDuration: 3.5)
         
+        let fadeOut = SKAction.fadeOut(withDuration: 1.5)
+        let fadeIn = SKAction.fadeIn(withDuration: 1.5)
+        
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: bridgeLabel.position.x + 300, y: 40))
@@ -172,7 +182,7 @@ public class Journey: SKScene {
             self.loadSectionTwo = true
         }
             
-        let sequence = SKAction.sequence([wait, changeTexture,  checkPosition])
+        let sequence = SKAction.sequence([wait, changeTexture,  checkPosition, fadeIn])
         
         background.run(sequence)
         
@@ -202,9 +212,10 @@ public class Journey: SKScene {
         
     }
     
+    
     func magnifierAction(_ nodes: [SKSpriteNode]) {
         
-        let scaleUp = SKAction.scale(by: 1.2, duration: 0.5)
+        let scaleUp = SKAction.scale(by: 1.3, duration: 0.7)
         scaleUp.timingMode = .easeInEaseOut
         
         for node in nodes {
@@ -212,6 +223,24 @@ public class Journey: SKScene {
             node.run(scaleUp)
             
         }
+        
+    }
+    
+    func setupSecondLevelAnimation(_ node: SKSpriteNode) {
+        
+        let wait = SKAction.wait(forDuration: 2.5)
+        
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: castle.position.x + 200, y: 25))
+        
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 200)
+        move.timingMode = .easeInEaseOut
+        
+        let sequence = SKAction.sequence([wait, move])
+    
+        node.run(sequence)
+        
         
     }
     
@@ -231,6 +260,13 @@ public class Journey: SKScene {
             setupSecondLevel(player)
             loadSectionTwo = false
 
+        }
+        
+        if finishGameTwo {
+            
+            setupSecondLevelAnimation(player)
+            magnifier.alpha = 0.4
+            finishGameTwo = false
         }
         
     }
