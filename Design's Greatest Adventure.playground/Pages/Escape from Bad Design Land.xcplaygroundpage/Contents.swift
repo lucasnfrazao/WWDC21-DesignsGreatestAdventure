@@ -269,11 +269,11 @@ public class Escape: UIViewController {
     public func editableCodes() {
 //#-end-hidden-code
         
-//: First Section
-firstSectionAttributes(typography:/*#-editable-code*/.headline/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.yellow/*#-end-editable-code*/)
+//: Top Section
+topSectionAttributes(typography:/*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.purple/*#-end-editable-code*/)
         
-//: Second Section
-secondSectionAttributes(typography:/*#-editable-code*/.body/*#-end-editable-code*/)
+//: Bottom Section
+bottomSectionAttribute(typography:/*#-editable-code*/.title/*#-end-editable-code*/)
         
 //#-hidden-code
         
@@ -295,7 +295,8 @@ secondSectionAttributes(typography:/*#-editable-code*/.body/*#-end-editable-code
             memoji.trailingAnchor.constraint(equalTo: phoneScreen.leadingAnchor, constant: 20),
             memoji.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
             
-            finalImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20),
+            finalImage.topAnchor.constraint(greaterThanOrEqualTo: sectionBody2.bottomAnchor),
+            finalImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             finalImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             finalImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 100),
             finalImage.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -100),
@@ -363,7 +364,7 @@ secondSectionAttributes(typography:/*#-editable-code*/.body/*#-end-editable-code
     }
     
     
-    func firstSectionAttributes(typography: TypographyFirst, backgroundColor: Colors) {
+    func topSectionAttributes(typography: TypographyFirst, backgroundColor: Colors) {
         
         if typography == .largeTitle {
             
@@ -424,7 +425,7 @@ secondSectionAttributes(typography:/*#-editable-code*/.body/*#-end-editable-code
     }
     
     
-    func secondSectionAttributes(typography: TypographySecond) {
+    func bottomSectionAttribute(typography: TypographySecond) {
         
         if typography == .title {
             
