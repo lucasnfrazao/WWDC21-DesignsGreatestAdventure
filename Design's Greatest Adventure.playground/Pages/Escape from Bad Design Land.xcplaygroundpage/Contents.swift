@@ -18,7 +18,7 @@
  
  * Callout(Tips):
 Typography: **.largeTitle, .headline, .title, .body** \
-Colors: **.purple, .pink, ,blue**
+Colors: **.yellow, .purple, .pink, ,blue**
 
  ---
 
@@ -176,7 +176,6 @@ public class Escape: UIViewController {
         label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.text = "You've fixed all the issues with the app's design! Now you can go to the next page to help grandma get to the top of Great World of Design."
-        //label.textColor = .systemBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -203,11 +202,11 @@ public class Escape: UIViewController {
     
     var finalImage: UIImageView = {
         let imageView = UIImageView()
-        //imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "Fourth")
-        imageView.frame = CGRect(x: 0, y: -100, width: 500, height: 500)
+        imageView.alpha = 0
         return imageView
     }()
     
@@ -239,9 +238,7 @@ public class Escape: UIViewController {
         
         phoneScreen.addSubview(sectionTitle3)
         phoneScreen.addSubview(sectionBody3)
-        
-        //view.addSubview(pageTitle)
-        //view.addSubview(pageSubtitle)
+  
         view.addSubview(memoji)
         
         setupConstraints()
@@ -255,7 +252,7 @@ public class Escape: UIViewController {
             
             UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut) {
                 
-                self.finalImage.frame = CGRect(x: 90, y: -30, width: 380, height: 380)
+                self.finalImage.alpha = 1.0
                 
             }
             
@@ -270,16 +267,15 @@ public class Escape: UIViewController {
     }
     
     public func editableCodes() {
-        //#-end-hidden-code
+//#-end-hidden-code
         
-        //: Top Section
-        firstSectionAttributes(typography: /*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor: /*#-editable-code*/.purple/*#-end-editable-code*/)
+//: First Section
+firstSectionAttributes(typography:/*#-editable-code*/.headline/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.yellow/*#-end-editable-code*/)
         
-        //: Bottom Section
-        secondSectionAttributes(typography: /*#-editable-code*/.title/*#-end-editable-code*/)
+//: Second Section
+secondSectionAttributes(typography:/*#-editable-code*/.body/*#-end-editable-code*/)
         
-        
-        //#-hidden-code
+//#-hidden-code
         
     }
     
@@ -299,9 +295,10 @@ public class Escape: UIViewController {
             memoji.trailingAnchor.constraint(equalTo: phoneScreen.leadingAnchor, constant: 20),
             memoji.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
             
+            finalImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20),
             finalImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            finalImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-//            finalImage.trailingAnchor.constraint(equalTo: view.leadingAnchor),
+            finalImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 100),
+            finalImage.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -100),
             
         ])
         
@@ -400,6 +397,8 @@ public class Escape: UIViewController {
         } else {
             
             handleColors(firstSectionBG, color: .systemYellow)
+            appTitle.text = "This is kinda hard to read, right?"
+            appSubtitle.text = "Try changing the attributes on the left to fix this!"
    
         }
         
