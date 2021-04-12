@@ -201,6 +201,16 @@ public class Escape: UIViewController {
         return imageView
     }()
     
+    var finalImage: UIImageView = {
+        let imageView = UIImageView()
+        //imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "Fourth")
+        imageView.frame = CGRect(x: 0, y: -100, width: 500, height: 500)
+        return imageView
+    }()
+    
     var memoji: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -216,6 +226,7 @@ public class Escape: UIViewController {
         view.frame = CGRect(x:0 , y:0, width: 768, height: 1024)
         
         view.addSubview(phoneScreen)
+        view.addSubview(finalImage)
         phoneScreen.addSubview(firstSectionBG)
         phoneScreen.addSubview(appTitle)
         phoneScreen.addSubview(appSubtitle)
@@ -229,8 +240,6 @@ public class Escape: UIViewController {
         phoneScreen.addSubview(sectionTitle3)
         phoneScreen.addSubview(sectionBody3)
         
-        //phoneScreen.addSubview(finalMessage)
-        
         //view.addSubview(pageTitle)
         //view.addSubview(pageSubtitle)
         view.addSubview(memoji)
@@ -241,12 +250,20 @@ public class Escape: UIViewController {
         if points >= 3 {
             
             memoji.image = UIImage(named: "Memoji_Smile")
-    
+            
+            self.finalImage.isHidden = false
+            
+            UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut) {
+                
+                self.finalImage.frame = CGRect(x: 90, y: -30, width: 380, height: 380)
+                
+            }
+            
+            
+
         } else {
             
-            //finalMessage.text = "There are some tweaks needed to fix the app's interface. Try changing some of them on the left!"
-            
-            //finalMessage.textColor = .gray
+            self.finalImage.isHidden = true
             
         }
         
@@ -280,7 +297,11 @@ public class Escape: UIViewController {
             iPhoneImage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
             memoji.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             memoji.trailingAnchor.constraint(equalTo: phoneScreen.leadingAnchor, constant: 20),
-            memoji.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor)
+            memoji.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor),
+            
+            finalImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            finalImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+//            finalImage.trailingAnchor.constraint(equalTo: view.leadingAnchor),
             
         ])
         
@@ -336,15 +357,9 @@ public class Escape: UIViewController {
             sectionTitle3.leadingAnchor.constraint(equalTo: sectionTitle2.leadingAnchor),
             sectionTitle3.trailingAnchor.constraint(equalTo: sectionTitle2.trailingAnchor),
             
-            
             sectionBody3.topAnchor.constraint(equalTo: sectionTitle3.bottomAnchor, constant: 5),
             sectionBody3.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
             sectionBody3.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
-            
-            
-//            finalMessage.bottomAnchor.constraint(equalTo: phoneScreen.bottomAnchor, constant: -60),
-//            finalMessage.leadingAnchor.constraint(equalTo: sectionTitle3.leadingAnchor),
-//            finalMessage.trailingAnchor.constraint(equalTo: sectionTitle3.trailingAnchor),
             
         ])
         
@@ -385,8 +400,7 @@ public class Escape: UIViewController {
         } else {
             
             handleColors(firstSectionBG, color: .systemYellow)
-            
-            
+   
         }
         
         
@@ -417,12 +431,14 @@ public class Escape: UIViewController {
             
             handleSecondSection(sectionTitle, isTitle: true)
             handleSecondSection(sectionTitle2, isTitle: true)
+            handleSecondSection(sectionTitle3, isTitle: true)
             points += 1
             
         } else {
             
             handleSecondSection(sectionTitle, isTitle: false)
             handleSecondSection(sectionTitle2, isTitle: false)
+            handleSecondSection(sectionTitle3, isTitle: false)
             
         }
         
@@ -432,14 +448,12 @@ public class Escape: UIViewController {
     func handleSecondSection(_ label: UILabel, isTitle: Bool) {
         
         label.textAlignment = .left
-        //label.text = "Titles should be bigger..."
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         
         if isTitle {
             
             label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            //label.text = "Size and Weight are important"
             
         } else {
             

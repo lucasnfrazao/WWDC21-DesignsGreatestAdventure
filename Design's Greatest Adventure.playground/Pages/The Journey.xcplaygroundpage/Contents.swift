@@ -14,9 +14,6 @@ Today, we are going to talk about two of them:
 - Magnifier
 
 This time, your goal is to help Lucas' grandma finish her reading exercise by changing the font's and window's size using the on-screen buttons. This way Lucas' grandma will be able to use your app more easily and get to the top of the snowy mountains of the Great World of Design!
- 
- * Callout(Keep in mind):
-User testing is a must-have for any accessibility feature in your app. That is how you will make sure your choices have the impact you intended. Design is an on-going process, so you will always have something to improve!
 
 Tap **Run My Code** when you're ready!
 
@@ -29,6 +26,8 @@ import SpriteKit
 import PlaygroundSupport
 
 public class Journey: SKScene {
+    
+    var endMessage: SKSpriteNode!
     
     var bridgeLabel: SKLabelNode!
     
@@ -53,7 +52,7 @@ public class Journey: SKScene {
     var tapsMagnifier: Int = 0
     
     public override func didMove(to view: SKView) {
-        
+      
         bridgeLabel = childNode(withName: "//bridge") as? SKLabelNode
         
         dynamic = childNode(withName: "//dynamic") as? SKSpriteNode
@@ -63,6 +62,8 @@ public class Journey: SKScene {
         player = childNode(withName: "//player") as? SKSpriteNode
         
         castle = childNode(withName: "//castle") as? SKSpriteNode
+        
+        endMessage = childNode(withName: "//endMessage") as? SKSpriteNode
         
         background = childNode(withName: "//background") as? SKSpriteNode
         
@@ -147,17 +148,11 @@ public class Journey: SKScene {
         
   
     }
-    
-    func animation(endMessage: SKSpriteNode) {
-        
-        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 650, duration: 0.3)
-        endMessage.run(moveToCenter)
-        
-    }
-    
+  
     func degToRad(degree: Double) -> CGFloat {
         return CGFloat(Double(degree) / 180.0 * Double.pi)
     }
+    
     
     func passFirstLevel(_ node: SKSpriteNode) {
         
@@ -215,7 +210,7 @@ public class Journey: SKScene {
     
     func magnifierAction(_ nodes: [SKSpriteNode]) {
         
-        let scaleUp = SKAction.scale(by: 1.3, duration: 0.7)
+        let scaleUp = SKAction.scale(by: 1.2, duration: 0.7)
         scaleUp.timingMode = .easeInEaseOut
         
         for node in nodes {
@@ -227,6 +222,9 @@ public class Journey: SKScene {
     }
     
     func setupSecondLevelAnimation(_ node: SKSpriteNode) {
+        
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 290, duration: 0.8)
+        moveToCenter.timingMode = .easeInEaseOut
         
         let wait = SKAction.wait(forDuration: 2.5)
         
@@ -240,6 +238,8 @@ public class Journey: SKScene {
         let sequence = SKAction.sequence([wait, move])
     
         node.run(sequence)
+        
+        endMessage.run(SKAction.sequence([wait, moveToCenter]))
         
         
     }

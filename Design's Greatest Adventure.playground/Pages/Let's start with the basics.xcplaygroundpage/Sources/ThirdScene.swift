@@ -44,7 +44,7 @@ public class ThirdScene: SKScene {
             
             door.texture = SKTexture(image: UIImage(named:"Door-Open")!)
             
-            //animation(endMessage: endMessage)
+            animation(endMessage: endMessage)
             
         }
         
@@ -55,7 +55,8 @@ public class ThirdScene: SKScene {
     
     func animation(endMessage: SKSpriteNode) {
         
-        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 650, duration: 0.3)
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 250, duration: 0.3)
+        moveToCenter.timingMode = .easeInEaseOut
         endMessage.run(moveToCenter)
         
     }

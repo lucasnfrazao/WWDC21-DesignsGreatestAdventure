@@ -52,11 +52,17 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var emptyNode: SKSpriteNode!
     
+    var endMessage: SKSpriteNode!
+    
+    var points: Int = 0
+    
     public override func didMove(to view: SKView) {
         
         nextButton = childNode(withName: "//next") as? SKSpriteNode
         sign = childNode(withName: "//sign") as? SKSpriteNode
         arrows = childNode(withName: "//movable") as? SKSpriteNode
+        
+        endMessage = childNode(withName: "//endMessage") as? SKSpriteNode
         
         title = childNode(withName: "//title") as? SKLabelNode
         subtitle = childNode(withName: "//subtitle") as? SKLabelNode
@@ -71,6 +77,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         get {
             return true
         }
+    }
+    
+    
+    func animation(endMessage: SKSpriteNode) {
+        
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 250, duration: 0.3)
+        moveToCenter.timingMode = .easeInEaseOut
+        endMessage.run(moveToCenter)
+        
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -140,16 +155,19 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if arrows.intersects(sign) {
             
-            //print("SIM")
+            
             
         } else {
             
-            //print("nao")
-            
+            points += 1
             nextButton.isHidden = false
             
+            if points == 1 {
+            animation(endMessage: endMessage)
+            }
+                
         }
-        
+            
         
     }
     
@@ -313,7 +331,8 @@ class SecondScene: SKScene {
     
     func animation(endMessage: SKSpriteNode) {
         
-        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 320, duration: 0.3)
+        let moveToCenter = SKAction.moveTo(y: endMessage.position.y - 250, duration: 0.3)
+        moveToCenter.timingMode = .easeInEaseOut
         endMessage.run(moveToCenter)
         
     }
