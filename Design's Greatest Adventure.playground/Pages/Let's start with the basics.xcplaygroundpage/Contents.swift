@@ -1,13 +1,13 @@
 /*:
  ![StartBanner](StartBasicsv2.png)
  
- Today, we're going to talk about **user interfaces**. Designing well-thought-out user interfaces, or UI for short, is a very important step on the making of great and accessible experiences for **everyone**!
+ Today we're going to talk about **user interfaces**. Designing well-thought-out user interfaces, or UI for short, is a very important step on the making of great and accessible experiences for **everyone**!
  
  Although it's a very complex subject, there are some concepts that we can use in order to achieve better results when projecting our apps.
 
  According to Usability.gov, every project should follow some best practices for its interface development.
 
- Here, we are going to explore three of them:
+ Here we are going to explore three of them:
 
  - Simplicity
  - Consistency
@@ -15,7 +15,7 @@
 
  To start our journey into the world of UI design, you will need to help Lucas with his new side project: help his grandmother learn more about designing interfaces and how useful it can be when using apps!
 
- Your goal here will be to complete **three** challenges to help Lucas' grandma during her journey to the **Great World of Design**!
+ Your goal here will be to complete **three** challenges to help Lucas' grandma during her journey to enter the **Great World of Design**!
 
  Tap **Run My Code** to help her!
 

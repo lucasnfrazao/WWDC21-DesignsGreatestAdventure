@@ -2,18 +2,18 @@
  
  ![The Journey](TheJourney.png)
  
-Now that we've established more advaced topics of UI design, it's time for a very important aspect that is essential to how we think about design: **Accessibility**.
+Now that we've established more advanced topics of UI design, it's time for a very important aspect that is essential to how we think about design: **accessibility**.
 
 According to the Census Bureau from 2012, **57 million Americans** have some type of disability and many of them report some sort of impact from the lack of accessibility on websites, applications or documents.
 
 In order to make any project accesible to everyone, we have to be aware of design decisions since the beginning. And there are some frameworks and technologies that we can use to achieve a better experience for everyone!
 
-Today, we are going to talk about two of them:
+Today we are going to talk about two of them:
 
 - Dynamic Type
 - Magnifier
 
-This time, your goal is to help Lucas' grandma finish her reading exercise by changing the font's and window's size using the on-screen buttons. This way Lucas' grandma will be able to use your app more easily and get to the top of the snowy mountains of the Great World of Design!
+This time, your goal is to help Lucas' grandma reach the Castle of Symmetry by changing the font's size and screen zoom using the on-screen buttons. This way grandma will be able to get to the top of the snowy mountains of the Great World of Design!
 
 Tap **Run My Code** when you're ready!
 
