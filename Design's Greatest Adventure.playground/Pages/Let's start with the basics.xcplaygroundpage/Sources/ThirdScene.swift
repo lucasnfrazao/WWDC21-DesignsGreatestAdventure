@@ -15,6 +15,13 @@ public class ThirdScene: SKScene {
     
     var endMessage: SKSpriteNode!
     
+    var points: Int = 0
+    
+    func degToRad(degree: Double) -> CGFloat {
+        return CGFloat(Double(degree) / 180.0 * Double.pi)
+    }
+    
+    
     public override func didMove(to view: SKView) {
         
         path1 = childNode(withName: "//path_1") as? SKSpriteNode
@@ -35,19 +42,38 @@ public class ThirdScene: SKScene {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
         
-        if path3.contains(touchLocation) {
+        let rotationSequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -4.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),SKAction.rotate(byAngle: degToRad(degree: 4.0), duration: 0.2),SKAction.rotate(byAngle: 0.0, duration: 0.1)])
+        
+        if path2.contains(touchLocation) || road2.contains(touchLocation)  {
             
             path1.alpha = 0.4
-            path2.alpha = 0.4
+            path3.alpha = 0.4
             road1.alpha = 0.4
-            road2.alpha = 0.4
+            road3.alpha = 0.4
             
             door.texture = SKTexture(image: UIImage(named:"Door-Open")!)
             
-            animation(endMessage: endMessage)
+            points += 1
+            
+            if points == 1 {
+            
+                animation(endMessage: endMessage)
+                
+            }
             
         }
         
+        if path1.contains(touchLocation) {
+            
+            path1.run(rotationSequence)
+            
+        }
+        
+        if path3.contains(touchLocation) {
+            
+            path3.run(rotationSequence)
+            
+        }
         
         
     }

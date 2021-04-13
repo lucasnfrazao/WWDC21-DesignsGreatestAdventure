@@ -256,8 +256,6 @@ public class Escape: UIViewController {
                 
             }
             
-            
-
         } else {
             
             self.finalImage.isHidden = true
@@ -283,6 +281,7 @@ bottomSectionAttribute(typography:/*#-editable-code*/.title/*#-end-editable-code
     public func setupConstraints() {
         
         NSLayoutConstraint.activate([
+            
             phoneScreen.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             phoneScreen.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             phoneScreen.widthAnchor.constraint(equalTo: phoneScreen.heightAnchor, multiplier: 9/19.5),

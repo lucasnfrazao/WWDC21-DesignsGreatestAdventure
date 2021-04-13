@@ -246,11 +246,17 @@ class SecondScene: SKScene {
     
     var endMessage: SKSpriteNode!
     
+    let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
+    let scaleDownAction = SKAction.scale(to: 1.10, duration: 0.3)
+    let selectedAction = SKAction.scale(to: 0.85, duration: 0.3)
+    
     override func didMove(to view: SKView) {
         
         correctAnswer1 = childNode(withName: "//correct1") as? SKSpriteNode
         correctAnswer2 = childNode(withName: "//correct2") as? SKSpriteNode
         correctAnswer3 = childNode(withName: "//correct3") as? SKSpriteNode
+        
+        wrongAnswer = childNode(withName: "//wrong") as? SKSpriteNode
         
         endMessage = childNode(withName: "//endMessage") as? SKSpriteNode
         
@@ -265,12 +271,7 @@ class SecondScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
-        
-        let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
-        let scaleDownAction = SKAction.scale(to: 1.10, duration: 0.3)
-        
-        let selectedAction = SKAction.scale(to: 0.85, duration: 0.3)
-    
+
         let sequence = SKAction.sequence([scaleUpAction, scaleDownAction])
         
         for i in 0..<answers.count {
@@ -282,35 +283,33 @@ class SecondScene: SKScene {
                 answer.run(selectedAction)
             }
             
-            if points >= 3 {
-                
-                self.loadNextScene(location: touchLocation)
+            if points == 3 {
                 
                 answer.run(SKAction.repeatForever(sequence))
-                
+             
                 enumerateChildNodes(withName: "wrong") {
                         node, stop in
                         node.alpha = 0.4
                 }
                 
-                animation(endMessage: endMessage)
-                
+                self.loadNextScene()
+       
             }
             
         }
         
-    }
-    
-    func loadNextScene(location: CGPoint) {
-        
-        nextButton.isHidden = false
-        
-        if nextButton.contains(location) {
+        if nextButton.contains(touchLocation) {
             
             sceneManager.transition(self, toScene: ThirdScene(fileNamed: "ThirdScene")!)
             
         }
         
+    }
+    
+    func loadNextScene() {
+        
+        nextButton.isHidden = false
+        animation(endMessage: endMessage)
         
     }
     
@@ -323,7 +322,6 @@ class SecondScene: SKScene {
             
         } else {
             
-            //print("NÃO ADICIONA")
         }
         
     }

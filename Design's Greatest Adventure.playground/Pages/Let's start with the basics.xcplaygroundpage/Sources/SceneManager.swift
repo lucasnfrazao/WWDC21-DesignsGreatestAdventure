@@ -3,13 +3,6 @@ import SpriteKit
 
 public class SceneManager {
     
-//    public enum SceneType {
-//
-//        case simplicity
-//
-//    }
-//
-    
     public init() {}
     static let shared = SceneManager()
     
