@@ -271,10 +271,10 @@ public class Escape: UIViewController {
 //#-end-hidden-code
         
 //: Top Section
-topSectionAttributes(typography:/*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.pink/*#-end-editable-code*/)
+topSectionAttributes(typography:/*#-editable-code*/.headline/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.yellow/*#-end-editable-code*/)
         
 //: Bottom Section
-bottomSectionAttribute(typography:/*#-editable-code*/.title/*#-end-editable-code*/)
+bottomSectionAttribute(typography:/*#-editable-code*/.body/*#-end-editable-code*/)
         
 //#-hidden-code
         
