@@ -11,7 +11,7 @@
  - Typography
  - Colors
  
- As grandma entered the Great World of Design, she came across the **Bad Design Land**. Now, you're objective is to help her escape from it by choosing the correct attributes that will make the app's design better!
+ As grandma entered the Great World of Design, she came across the **Bad Design Land**. Now, your objective is to help her escape from it by choosing the correct attributes that will make the app's design better!
 
  Tap **Run My Code** when you're ready!
  
@@ -271,10 +271,10 @@ public class Escape: UIViewController {
 //#-end-hidden-code
         
 //: Top Section
-topSectionAttributes(typography:/*#-editable-code*/.headline/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.yellow/*#-end-editable-code*/)
+topSectionAttributes(typography:/*#-editable-code*/.largeTitle/*#-end-editable-code*/, backgroundColor:/*#-editable-code*/.pink/*#-end-editable-code*/)
         
 //: Bottom Section
-bottomSectionAttribute(typography:/*#-editable-code*/.body/*#-end-editable-code*/)
+bottomSectionAttribute(typography:/*#-editable-code*/.title/*#-end-editable-code*/)
         
 //#-hidden-code
         
