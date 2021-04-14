@@ -29,7 +29,7 @@ import SpriteKit
 
 // Load the SKScene from 'GameScene.sks'
 public let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 768, height: 1024))
-if let scene = GameScene(fileNamed: "GameScene") {
+if let scene = FirstScene(fileNamed: "FirstScene") {
     // Set the scale mode to scale to fit the window
     scene.scaleMode = .aspectFill
     // Present the scene
@@ -38,7 +38,7 @@ if let scene = GameScene(fileNamed: "GameScene") {
 
 var sceneManager = SceneManager()
 
-public class GameScene: SKScene, SKPhysicsContactDelegate {
+public class FirstScene: SKScene, SKPhysicsContactDelegate {
     
     private let movableArrow = "movable"
     private var selectedNode = SKSpriteNode()
