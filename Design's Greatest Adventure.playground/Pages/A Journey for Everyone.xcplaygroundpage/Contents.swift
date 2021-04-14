@@ -51,6 +51,8 @@ public class Journey: SKScene {
     
     var tapsMagnifier: Int = 0
     
+    var finalAnimation: Int = 0
+    
     public override func didMove(to view: SKView) {
       
         bridgeLabel = childNode(withName: "//bridge") as? SKLabelNode
@@ -122,13 +124,14 @@ public class Journey: SKScene {
         
         if tapsDynamic == 3 {
         
-        if tapsMagnifier != 3 {
+        if tapsMagnifier < 3 {
             
             if magnifier.contains(touchLocation) {
             
                 magnifierAction([player, castle])
                 tapsMagnifier += 1
                 magnifier.run(touchSequence)
+                finalAnimation += 1
                 
             } else {
                 
@@ -143,6 +146,8 @@ public class Journey: SKScene {
         if tapsMagnifier == 3 {
             
             finishGameTwo = true
+            setupSecondLevelAnimation(player)
+            tapsMagnifier += 1
             
         }
         
@@ -264,9 +269,9 @@ public class Journey: SKScene {
         
         if finishGameTwo {
             
-            setupSecondLevelAnimation(player)
             magnifier.alpha = 0.4
             finishGameTwo = false
+            
         }
         
     }

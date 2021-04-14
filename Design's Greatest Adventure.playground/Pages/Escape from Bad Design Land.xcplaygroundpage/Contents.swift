@@ -18,7 +18,7 @@
  
  * Callout(Tips):
 Typography: **.largeTitle, .headline, .title, .body** \
-Colors: **.yellow, .purple, .pink, ,blue**
+Colors: **.yellow, .purple, .pink, .blue**
  
  
 **Try running the code once before changing the attributes!**

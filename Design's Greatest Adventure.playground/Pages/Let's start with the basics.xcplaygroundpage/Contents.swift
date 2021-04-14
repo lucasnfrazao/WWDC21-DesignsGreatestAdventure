@@ -244,6 +244,8 @@ class SecondScene: SKScene {
     var selectedNodes : [SKSpriteNode] = []
     var points : Int = 0
     
+    var ready: Int = 0
+    
     var endMessage: SKSpriteNode!
     
     let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
@@ -285,6 +287,8 @@ class SecondScene: SKScene {
             
             if points == 3 {
                 
+                ready += 1
+                
                 answer.run(SKAction.repeatForever(sequence))
              
                 enumerateChildNodes(withName: "wrong") {
@@ -309,8 +313,10 @@ class SecondScene: SKScene {
     func loadNextScene() {
         
         nextButton.isHidden = false
+        if ready == 1 {
         animation(endMessage: endMessage)
-        
+        }
+            
     }
     
     func checkNodes(node: SKSpriteNode) {
