@@ -160,14 +160,13 @@ public class FirstScene: SKScene, SKPhysicsContactDelegate {
         if arrows.intersects(sign) {
             
             
-            
         } else {
             
             points += 1
             nextButton.isHidden = false
             
             if points == 1 {
-            animation(endMessage: endMessage)
+                animation(endMessage: endMessage)
             }
                 
         }
@@ -194,7 +193,6 @@ public class FirstScene: SKScene, SKPhysicsContactDelegate {
         if !selectedNode.isEqual(touchedNode) {
           selectedNode.removeAllActions()
           selectedNode = touchedNode as! SKSpriteNode
-          //selectedNode.run(SKAction.repeatForever(sequence))
           
         }
       }
@@ -261,8 +259,8 @@ class SecondScene: SKScene {
     let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
     let scaleDownAction = SKAction.scale(to: 1.10, duration: 0.3)
     let selectedAction = SKAction.scale(to: 0.85, duration: 0.3)
-    let selectedAlpha = SKAction.fadeAlpha(to: 0.5, duration: 0.5)
-    let unselectedAlpha = SKAction.fadeAlpha(to: 1, duration: 0.5)
+    let selectedAlpha = SKAction.fadeAlpha(to: 0.5, duration: 1.0)
+    let unselectedAlpha = SKAction.fadeAlpha(to: 1, duration: 1.0)
     
     var signals: [SKSpriteNode] = []
     
@@ -308,6 +306,7 @@ class SecondScene: SKScene {
         
     }
     
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
@@ -316,7 +315,7 @@ class SecondScene: SKScene {
         
         let sequence = SKAction.sequence([scaleUpAction, scaleDownAction])
         
-        let selectedSequence = SKAction.sequence([selectedAction])
+        let selectedGroup = SKAction.group([selectedAction, selectedAlpha])
         
         let touchedNode = self.atPoint(touchLocation)
         
@@ -326,8 +325,7 @@ class SecondScene: SKScene {
             
             if answer.contains(touchLocation) {
                 checkNodes(node: answer)
-                answer.run(selectedSequence)
-                answer.run(SKAction.fadeAlpha(to: 0.5, duration: 1.0))
+                answer.run(selectedGroup)
                 
                 if answer.children.count != 0 {
                 
@@ -337,38 +335,30 @@ class SecondScene: SKScene {
                 
             }
             
-            for selectedNode in selectedNodes {
-            
             if points == 3 {
+            
+            for selectedNode in selectedNodes {
+
+                points += 1
                 
                 ready += 1
                 
-                selectedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
-                
-                for signal in signals {
-                    signal.removeFromParent()
-                }
+                selectedNode.run(unselectedAlpha)
                 
                 selectedNode.run(SKAction.repeatForever(sequence))
-             
-                enumerateChildNodes(withName: "wrong") {
-                        node, stop in
-                        node.alpha = 0.4
-                }
                 
                 self.loadNextScene()
-       
-            }
                 
+                }
+      
             }
             
         }
         
-        if touchedNode.name == "wrong" {
+        if touchedNode.name == "wrong" && points < 3 {
           if !selectedNode.isEqual(touchedNode) {
             selectedNode = touchedNode as! SKSpriteNode
             selectedNode.run(SKAction.repeat(rotationSequence, count: 5))
-            
           }
         }
         
