@@ -306,6 +306,14 @@ class SecondScene: SKScene {
         
     }
     
+    public override func sceneDidLoad()
+    {
+        super.sceneDidLoad()
+
+        self.size.width = self.size.height * (UIScreen.main.bounds.size.width / UIScreen.main.bounds.size.height)
+        self.scaleMode = .aspectFit
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!

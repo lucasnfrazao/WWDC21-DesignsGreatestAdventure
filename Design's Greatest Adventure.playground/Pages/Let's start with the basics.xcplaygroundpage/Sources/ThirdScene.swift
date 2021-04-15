@@ -21,6 +21,14 @@ public class ThirdScene: SKScene {
         return CGFloat(Double(degree) / 180.0 * Double.pi)
     }
     
+    public override func sceneDidLoad()
+    {
+        super.sceneDidLoad()
+
+        self.size.width = self.size.height * (UIScreen.main.bounds.size.width / UIScreen.main.bounds.size.height)
+        self.scaleMode = .aspectFit
+    }
+    
     
     public override func didMove(to view: SKView) {
         
