@@ -236,6 +236,8 @@ public class FirstScene: SKScene, SKPhysicsContactDelegate {
 
 class SecondScene: SKScene {
 
+    private var selectedNode = SKSpriteNode()
+    
     var wrongAnswer: SKSpriteNode!
     
     var correctAnswer1: SKSpriteNode!
@@ -255,6 +257,13 @@ class SecondScene: SKScene {
     let scaleUpAction = SKAction.scale(to: 1.15, duration: 0.5)
     let scaleDownAction = SKAction.scale(to: 1.10, duration: 0.3)
     let selectedAction = SKAction.scale(to: 0.85, duration: 0.3)
+    let selectedAlpha = SKAction.fadeAlpha(to: 0.5, duration: 0.5)
+    let unselectedAlpha = SKAction.fadeAlpha(to: 1, duration: 0.5)
+    
+    
+    func degToRad(degree: Double) -> CGFloat {
+        return CGFloat(Double(degree) / 180.0 * Double.pi)
+    }
     
     override func didMove(to view: SKView) {
         
@@ -278,7 +287,14 @@ class SecondScene: SKScene {
         let touch = touches.first!
         let touchLocation = touch.location(in: self)
 
+        let rotationSequence = SKAction.sequence([ SKAction.rotate(byAngle: degToRad(degree: -8.0), duration: 0.2), SKAction.rotate(byAngle: 0.0, duration: 0.1),SKAction.rotate(byAngle: degToRad(degree: 8.0), duration: 0.2),SKAction.rotate(byAngle: 0.0, duration: 0.1)])
+        
         let sequence = SKAction.sequence([scaleUpAction, scaleDownAction])
+        
+        let selectedSequence = SKAction.sequence([selectedAction])
+        
+        let touchedNode = self.atPoint(touchLocation)
+        
         
         for i in 0..<answers.count {
             
@@ -286,13 +302,13 @@ class SecondScene: SKScene {
             
             if answer.contains(touchLocation) {
                 checkNodes(node: answer)
-                answer.run(selectedAction)
+                answer.run(selectedSequence)
             }
             
             if points == 3 {
                 
                 ready += 1
-                
+             
                 answer.run(SKAction.repeatForever(sequence))
              
                 enumerateChildNodes(withName: "wrong") {
@@ -306,6 +322,15 @@ class SecondScene: SKScene {
             
         }
         
+        if touchedNode.name == "wrong" {
+          if !selectedNode.isEqual(touchedNode) {
+            selectedNode = touchedNode as! SKSpriteNode
+            selectedNode.run(SKAction.repeat(rotationSequence, count: 5))
+            
+          }
+        }
+        
+        
         if nextButton.contains(touchLocation) {
             
             sceneManager.transition(self, toScene: ThirdScene(fileNamed: "ThirdScene")!)
@@ -317,8 +342,9 @@ class SecondScene: SKScene {
     func loadNextScene() {
         
         nextButton.isHidden = false
+        
         if ready == 1 {
-        animation(endMessage: endMessage)
+            animation(endMessage: endMessage)
         }
             
     }
