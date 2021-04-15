@@ -499,7 +499,6 @@ extension UIImageView {
 
 let viewController = Escape()
 PlaygroundPage.current.liveView = viewController
-PlaygroundPage.current.needsIndefiniteExecution = true
 
 //#-end-hidden-code
 
