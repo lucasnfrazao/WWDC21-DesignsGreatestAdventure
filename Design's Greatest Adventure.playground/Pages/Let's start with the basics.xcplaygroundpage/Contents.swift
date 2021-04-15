@@ -16,10 +16,14 @@
  To start our journey into the world of UI design, you will need to help Lucas with his new side project: help his grandmother learn more about designing interfaces and how useful it can be when using apps!
 
  Your goal here will be to complete **three** challenges to help Lucas' grandma during her journey to enter the **Great World of Design**!
-
+ 
  Tap **Run My Code** to help her!
 
  When you're ready, go to the [next page](@next) to continue grandma's adventure.
+
+ 
+ - Note:
+   For an optimal experience, run on Split Screen mode.
  
 */
 //#-hidden-code
