@@ -63,14 +63,16 @@ public class ThirdScene: SKScene {
             
         }
         
-        if path1.contains(touchLocation) {
+        if path1.contains(touchLocation) || road1.contains(touchLocation) {
             
+            road1.run(rotationSequence)
             path1.run(rotationSequence)
             
         }
         
-        if path3.contains(touchLocation) {
+        if path3.contains(touchLocation) || road3.contains(touchLocation)  {
             
+            road3.run(rotationSequence)
             path3.run(rotationSequence)
             
         }

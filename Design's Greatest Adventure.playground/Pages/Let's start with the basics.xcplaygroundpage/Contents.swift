@@ -244,6 +244,10 @@ class SecondScene: SKScene {
     var correctAnswer2: SKSpriteNode!
     var correctAnswer3: SKSpriteNode!
     
+    var signal1: SKSpriteNode!
+    var signal2: SKSpriteNode!
+    var signal3: SKSpriteNode!
+    
     var nextButton: SKSpriteNode!
     
     var answers : [SKSpriteNode] = []
@@ -260,6 +264,8 @@ class SecondScene: SKScene {
     let selectedAlpha = SKAction.fadeAlpha(to: 0.5, duration: 0.5)
     let unselectedAlpha = SKAction.fadeAlpha(to: 1, duration: 0.5)
     
+    var signals: [SKSpriteNode] = []
+    
     
     func degToRad(degree: Double) -> CGFloat {
         return CGFloat(Double(degree) / 180.0 * Double.pi)
@@ -267,6 +273,21 @@ class SecondScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+        signal1 = SKSpriteNode(imageNamed: "signal")
+        signal2 = SKSpriteNode(imageNamed: "signal")
+        signal3 = SKSpriteNode(imageNamed: "signal")
+        
+        signals.append(signal1)
+        signals.append(signal2)
+        signals.append(signal3)
+        
+        for signal in signals {
+            
+            signal.alpha = 0
+            signal.setScale(0.5)
+ 
+        }
+   
         correctAnswer1 = childNode(withName: "//correct1") as? SKSpriteNode
         correctAnswer2 = childNode(withName: "//correct2") as? SKSpriteNode
         correctAnswer3 = childNode(withName: "//correct3") as? SKSpriteNode
@@ -280,6 +301,10 @@ class SecondScene: SKScene {
         answers = [correctAnswer1, correctAnswer2, correctAnswer3]
         
         nextButton.isHidden = true
+        
+        correctAnswer1.addChild(signal1)
+        correctAnswer2.addChild(signal2)
+        correctAnswer3.addChild(signal3)
         
     }
     
@@ -295,7 +320,6 @@ class SecondScene: SKScene {
         
         let touchedNode = self.atPoint(touchLocation)
         
-        
         for i in 0..<answers.count {
             
             let answer = answers[i]
@@ -303,13 +327,29 @@ class SecondScene: SKScene {
             if answer.contains(touchLocation) {
                 checkNodes(node: answer)
                 answer.run(selectedSequence)
+                answer.run(SKAction.fadeAlpha(to: 0.5, duration: 1.0))
+                
+                if answer.children.count != 0 {
+                
+                    answer.children[0].alpha = 1.0
+                    
+                }
+                
             }
+            
+            for selectedNode in selectedNodes {
             
             if points == 3 {
                 
                 ready += 1
-             
-                answer.run(SKAction.repeatForever(sequence))
+                
+                selectedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+                
+                for signal in signals {
+                    signal.removeFromParent()
+                }
+                
+                selectedNode.run(SKAction.repeatForever(sequence))
              
                 enumerateChildNodes(withName: "wrong") {
                         node, stop in
@@ -318,6 +358,8 @@ class SecondScene: SKScene {
                 
                 self.loadNextScene()
        
+            }
+                
             }
             
         }
